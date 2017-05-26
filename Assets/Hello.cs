@@ -4,6 +4,7 @@ public class Hello : MonoBehaviour
 {
 	Rect _labelRect;
 	static readonly string _labelText = "Hello Bugzilla!";
+	public float QuitAfterElapsedSeconds;
 
 	void Start ()
 	{
@@ -13,5 +14,18 @@ public class Hello : MonoBehaviour
 	void OnGUI ()
 	{
 		GUI.Label (_labelRect, _labelText);
+	}
+
+	void Update ()
+	{
+		if (Time.timeSinceLevelLoad > QuitAfterElapsedSeconds)
+		{
+			Debug.LogFormat ("Ran for {0} seconds, quitting", QuitAfterElapsedSeconds);
+			#if UNITY_EDITOR
+			UnityEditor.EditorApplication.isPlaying = false;
+			#else
+			Application.Quit();
+			#endif
+		}
 	}
 }
